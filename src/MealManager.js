@@ -39,7 +39,8 @@ export default class Meal {
       });
       mealsRandArray.push(myMeal);
     }
-    meals = mealsRandArray;
+    this.meals = mealsRandArray;
+    console.log("meals length: " + this.meals.length);
   }
 
   static async GetMealId(idMeal) {
