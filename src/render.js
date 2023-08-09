@@ -36,9 +36,43 @@ export const renderFunction = (mealArray) => {
 };
 
 export const renderSingleMealPopup = (meal) => {
- 
+    
+    const popupContainer = document.createElement('div');
+    popupContainer.classList.add('popup-container');
   
-};
+    const popupContent = document.createElement('div');
+    popupContent.classList.add('popup-content');
+  
+    const popupMealName = document.createElement('h2');
+    popupMealName.textContent = meal.strMeal;
+  
+    const popupMealCategory = document.createElement('p');
+    popupMealCategory.textContent = `Category: ${meal.strCategory}`;
+  
+    const popupMealInstructions = document.createElement('p');
+    popupMealInstructions.textContent = meal.strInstructions;
+  
+    popupMealName.classList.add('meal-element');
+    popupMealCategory.classList.add('meal-element');
+    popupMealInstructions.classList.add('meal-element');
+  
+    popupContent.appendChild(popupMealName);
+    popupContent.appendChild(popupMealCategory);
+    popupContent.appendChild(popupMealInstructions);
+  
+    const closeButton = document.createElement('span');
+    closeButton.classList.add('popup-close');
+    closeButton.textContent = 'Close';
+  
+    popupContainer.appendChild(popupContent);
+    popupContainer.appendChild(closeButton);
+  
+    document.body.appendChild(popupContainer);
+  
+    closeButton.addEventListener('click', () => {
+      document.body.removeChild(popupContainer);
+    });
+  };
 
 /*// Ejemplo de cómo usar la clase Meal y los métodos
 async function main() {
