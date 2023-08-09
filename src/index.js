@@ -6,6 +6,9 @@ import Meal from './MealManager.js';
 //Meal.GetMealRandom();
 //Meal.NewAppId();
 
+const iconElement = document.querySelector('#iconImg');
+iconElement.classList.add('iconImg');
+
 function component() {
     const element = document.createElement('div');
   
