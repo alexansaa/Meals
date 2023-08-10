@@ -102,7 +102,7 @@ export default class Meal {
     };
     const tmpAns = await doPost(url, body);
     if (tmpAns.status) {
-      const newCmt = new Comment(comment, new Date(), username);
+      const newCmt = new Comment(comment, Date(), username);
       this.comments.push(newCmt);
     }
     return tmpAns.status;

@@ -5,7 +5,7 @@ function renderComments(commentsObjArr) {
   const myContainer = document.querySelector('#myCommentsCtn');
   commentsObjArr.forEach((cmt) => {
     const tmpCmt = document.createElement('p');
-    tmpCmt.textContent = `${cmt.creation_date} ${cmt.username}: ${cmt.comment}`;
+    tmpCmt.textContent = `${cmt.creationDate} ${cmt.username}: ${cmt.comment}`;
     myContainer.appendChild(tmpCmt);
   });
 }
