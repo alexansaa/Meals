@@ -1,6 +1,6 @@
+import _ from 'lodash';
 import Like from './Like.js';
 import Comment from './Comment.js';
-import _ from 'lodash';
 import { doGet, doPost } from './webRequest.js';
 
 // base APIs urls
