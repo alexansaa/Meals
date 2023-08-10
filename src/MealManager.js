@@ -4,12 +4,10 @@ import { doGet, doPost } from './webRequest.js';
 // base APIs urls
 // Meal Database
 const mealAPI = 'https://www.themealdb.com/api/json/v1/1';
-const mealByName = '/search.php?s=';
 const mealById = '/lookup.php?i=';
 const mealRandom = '/random.php';
-const mealImages = '/preview';
 // Involvement data storage
-const dataAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/wH7OLHn1qj0rNeNeg59n';   // just post to get new app Id
+const dataAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/wH7OLHn1qj0rNeNeg59n';
 const dataLikes = '/likes/';
 const dataComments = '/comments';
 const itemIdPostfix = '?item_id=';
@@ -17,7 +15,8 @@ const itemIdPostfix = '?item_id=';
 export default class Meal {
   static meals = [];
 
-  constructor(idMeal, strArea, strCategory, strInstructions, strMeal, strMealThumb, strSource, strYoutube) {
+  constructor(idMeal, strArea, strCategory, strInstructions,
+    strMeal, strMealThumb, strSource, strYoutube) {
     this.idMeal = idMeal;
     this.strArea = strArea;
     this.strCategory = strCategory;
@@ -31,17 +30,26 @@ export default class Meal {
 
   static async GetMealRandom(number) {
     const url = _.join([mealAPI, mealRandom], '');
-    const mealsRandArray = [];
-    for(let i = 0; i < number; i += 1){
-      const myMeal = await doGet(url).then((ans) => {
-        const tmp = ans.meals[0];
-        return new Meal(tmp.idMeal, tmp.strArea, tmp.strCategory, tmp.strInstructions, tmp.strMeal,
-          tmp.strMealThumb, tmp.strSource, tmp.strYoutube);
-      });
-      mealsRandArray.push(myMeal);
+    const mealPromises = [];
+    for (let i = 0; i < number; i += 1) {
+      mealPromises.push(
+        doGet(url).then((ans) => {
+          const tmp = ans.meals[0];
+          return new Meal(
+            tmp.idMeal,
+            tmp.strArea,
+            tmp.strCategory,
+            tmp.strInstructions,
+            tmp.strMeal,
+            tmp.strMealThumb,
+            tmp.strSource,
+            tmp.strYoutube
+          );
+        })
+      );
     }
+    const mealsRandArray = await Promise.all(mealPromises);
     this.meals = mealsRandArray;
-    console.log("meals length: " + this.meals.length);
   }
 
   static async GetMealId(idMeal) {
@@ -62,13 +70,13 @@ export default class Meal {
   async PostLike() {
     const url = _.join([dataAPI, dataLikes], '');
     const body = {
-      "item_id": this.idMeal
+      item_id: this.idMeal,
     };
     const tmpAns = await doPost(url, body);
     if (tmpAns.status) {
       const myMealLike = Like.likes.find((obj) => obj.idMeal === this.idMeal);
       if (myMealLike == null) {
-        const myLikeObj = new Like(this.idMeal,1);
+        const myLikeObj = new Like(this.idMeal, 1);
         Like.likes.push(myLikeObj);
       } else {
         myMealLike.likesQty += 1;
@@ -88,9 +96,9 @@ export default class Meal {
   async PostComment(username, comment) {
     const url = _.join([dataAPI, dataComments], '');
     const body = {
-      "item_id": this.idMeal,
-      "username": username,
-      "comment": comment
+      item_id: this.idMeal,
+      username: username,
+      comment: comment,
     };
     const tmpAns = await doPost(url, body);
     if (tmpAns.status) {
@@ -106,10 +114,11 @@ export default class Meal {
     const tmpAns = await doGet(url);
     try {
       if (tmpAns.error.status === 400) {
+
         //no hay comentarios del objeto
         return;
       }
-    } catch{
+    } catch {
       tmpAns.forEach((cmt) => {
         const tmpCmt = new Comment(cmt.comment, cmt.creation_date, cmt.username);
         this.comments.push(tmpCmt);
@@ -128,9 +137,9 @@ class Like {
 }
 
 class Comment {
-  constructor(comment, creation_date, username) {
+  constructor(comment, creationDate, username) {
     this.comment = comment;
-    this.creation_date = creation_date;
+    this.creationDate = creationDate;
     this.username = username;
   }
 }

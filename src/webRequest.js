@@ -2,19 +2,17 @@ export const doGet = (url) => fetch(url)
   .then((response) => {
     try {
       return response.json();
-    } catch (e) {
-      console.log('post error: ' + e);
-
+    } catch {
       let ansData = {};
       if (response.status === 201) {
         ansData = {
-          status: true
-        }
+          status: true,
+        };
       } else {
         ansData = {
-          status: false
-        }
-      }
+          status: false,
+        };
+      };
       return ansData;
     }
   });
@@ -29,23 +27,19 @@ export const doPost = (url, payload = null) => fetch(url, {
   },
 })
   .then((response) => {
+    let ansData = {};
     try {
       return response.json();
-    } catch (e) {
-      console.log('post error: ' + e);
-    } finally {
-      let ansData = {};
-      if (response.status === 201) {
-        ansData = {
-          status: true
-        }
-      } else {
-        ansData = {
-          status: false
-        }
+    } catch {
+    };
+    if (response.status === 201) {
+      ansData = {
+        status: true,
       }
-      return ansData;
-    }
+    } else {
+      ansData = {
+        status: false,
+      }
+    };
+    return ansData;
   });
-  // .then((response) => response.json())
-  // .then((json) => json);
