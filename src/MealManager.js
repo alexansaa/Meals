@@ -26,6 +26,7 @@ export default class Meal {
     this.strMealThumb = strMealThumb;
     this.strSource = strSource;
     this.strYoutube = strYoutube;
+    this.comments = [];
   }
 
   static async GetMealRandom(number) {
@@ -53,21 +54,35 @@ export default class Meal {
     return myMeal;
   }
 
+  static async GetLikes() {
+    const url = _.join([dataAPI, dataLikes], '');
+    Like.likes = await doGet(url);
+  }
+
   async PostLike() {
     const url = _.join([dataAPI, dataLikes], '');
     const body = {
       "item_id": this.idMeal
     };
     const tmpAns = await doPost(url, body);
-    console.log(tmpAns.result);
-    // further implementation
+    if (tmpAns.status) {
+      const myMealLike = Like.likes.find((obj) => obj.idMeal === this.idMeal);
+      if (myMealLike == null) {
+        const myLikeObj = new Like(this.idMeal,1);
+        Like.likes.push(myLikeObj);
+      } else {
+        myMealLike.likesQty += 1;
+      }
+    }
+    return tmpAns.status;
   }
 
-  async GetLike() {
-    const url = _.join([dataAPI, dataLikes], '');
-    const tmpAns = await doGet(url);
-    console.log(tmpAns.result);
-    // further implementation
+  GetLikeQty() {
+    const myMealLike = Like.likes.find((obj) => obj.idMeal === this.idMeal);
+    if (myMealLike == null) {
+      return 0;
+    }
+    return myMealLike.likesQty;
   }
 
   async PostComment(username, comment) {
@@ -78,17 +93,44 @@ export default class Meal {
       "comment": comment
     };
     const tmpAns = await doPost(url, body);
-    console.log(tmpAns.result);
-    // further implementation
+    if (tmpAns.status) {
+      const newCmt = new Comment(comment, new Date(), username);
+      this.comments.push(newCmt);
+    }
+    return tmpAns.status;
   }
 
   async GetComments() {
     const url = _.join([dataAPI, dataComments, itemIdPostfix, this.idMeal], '');
+    this.comments = [];
     const tmpAns = await doGet(url);
-    console.log(tmpAns.result);
-    // further implementation
-    // should recieve an array of objects
+    try {
+      if (tmpAns.error.status === 400) {
+        //no hay comentarios del objeto
+        return;
+      }
+    } catch{
+      tmpAns.forEach((cmt) => {
+        const tmpCmt = new Comment(cmt.comment, cmt.creation_date, cmt.username);
+        this.comments.push(tmpCmt);
+      });
+    }
   }
-
 }
 
+class Like {
+  static likes = [];
+
+  constructor(idMeal, likesQty) {
+    this.idMeal = idMeal;
+    this.likesQty = likesQty;
+  }
+}
+
+class Comment {
+  constructor(comment, creation_date, username) {
+    this.comment = comment;
+    this.creation_date = creation_date;
+    this.username = username;
+  }
+}
