@@ -1,3 +1,5 @@
+import Like from './Like.js';
+import Comment from './Comment.js';
 import _ from 'lodash';
 import { doGet, doPost } from './webRequest.js';
 
@@ -43,9 +45,9 @@ export default class Meal {
             tmp.strMeal,
             tmp.strMealThumb,
             tmp.strSource,
-            tmp.strYoutube
+            tmp.strYoutube,
           );
-        })
+        }),
       );
     }
     const mealsRandArray = await Promise.all(mealPromises);
@@ -93,16 +95,16 @@ export default class Meal {
     return myMealLike.likesQty;
   }
 
-  async PostComment(username, comment) {
+  async PostComment(uName, uComment) {
     const url = _.join([dataAPI, dataComments], '');
     const body = {
       item_id: this.idMeal,
-      username: username,
-      comment: comment,
+      username: uName,
+      comment: uComment,
     };
     const tmpAns = await doPost(url, body);
     if (tmpAns.status) {
-      const newCmt = new Comment(comment, Date(), username);
+      const newCmt = new Comment(uComment, Date(), uName);
       this.comments.push(newCmt);
     }
     return tmpAns.status;
@@ -114,8 +116,6 @@ export default class Meal {
     const tmpAns = await doGet(url);
     try {
       if (tmpAns.error.status === 400) {
-
-        //no hay comentarios del objeto
         return;
       }
     } catch {
@@ -124,22 +124,5 @@ export default class Meal {
         this.comments.push(tmpCmt);
       });
     }
-  }
-}
-
-class Like {
-  static likes = [];
-
-  constructor(idMeal, likesQty) {
-    this.idMeal = idMeal;
-    this.likesQty = likesQty;
-  }
-}
-
-class Comment {
-  constructor(comment, creationDate, username) {
-    this.comment = comment;
-    this.creationDate = creationDate;
-    this.username = username;
   }
 }

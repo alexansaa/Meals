@@ -12,7 +12,7 @@ export const doGet = (url) => fetch(url)
         ansData = {
           status: false,
         };
-      };
+      }
       return ansData;
     }
   });
@@ -32,12 +32,12 @@ export const doPost = (url, payload = null) => fetch(url, {
       if (response.status === 201) {
         ansData = {
           status: true,
-        }
+        };
       } else {
         ansData = {
           status: false,
-        }
-      };
-    };
+        };
+      }
+    }
     return ansData;
   });
