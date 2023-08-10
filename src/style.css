@@ -1,0 +1,37 @@
+.iconImg {
+  content: url('images/mylogo.png');
+}
+
+.iconLike {
+  content: url('images/like.png');
+}
+
+.iconX {
+  content: url('images/x.png');
+  position: fixed;
+  top: 3%;
+  right: 3%;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  z-index: 10;
+}
+
+.overlay-content {
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  overflow: auto;
+  max-height: 90vh;
+}
+
+.singleMealCtn {
+  max-height: 250px;
+  overflow: hidden;
+}
