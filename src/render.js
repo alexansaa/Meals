@@ -1,6 +1,6 @@
 import { renderComments } from './renderUtils.js';
 
-export default renderSingleMealPopup = async (meal) => {
+export default async function renderSingleMealPopup(meal) {
   await meal.GetComments();
 
   const singleMealCtn = document.querySelector('#contentContainer');

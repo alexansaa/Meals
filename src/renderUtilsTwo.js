@@ -1,4 +1,4 @@
-import { renderSingleMealPopup } from './render.js';
+import renderSingleMealPopup from './render.js';
 
 export let mainConter = 0;
 
