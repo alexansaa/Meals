@@ -11,4 +11,4 @@ await Meal.GetLikes();
 await Meal.GetMealRandom();
 renderFunction(Meal.meals);
 
-mealsTitle.textContent = `Meals (${mainConter})`;
+mealsTitle.textContent = `Meals (${mainConter()})`;

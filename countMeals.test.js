@@ -23,6 +23,6 @@ describe('Meals Items Counter', () => {
     renderFunction(myMeals);
 
     // Assert
-    expect(mainConter).toBe(6);
+    expect(mainConter()).toBe(6);
   });
 });
