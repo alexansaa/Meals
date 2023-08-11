@@ -1,4 +1,4 @@
-export var commentsCounter = 0;
+export let commentsCounter = 0;
 
 export const renderComments = (commentsObjArr) => {
   const myContainer = document.querySelector('#myCommentsCtn');
@@ -12,5 +12,4 @@ export const renderComments = (commentsObjArr) => {
     myContainer.appendChild(tmpCmt);
   });
   titleContainer.textContent = `Comments (${commentsCounter})`;
-}
-
+};

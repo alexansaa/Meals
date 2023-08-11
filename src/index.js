@@ -1,7 +1,6 @@
 import './style.css';
 import Meal from './MealManager.js';
-import { mainConter } from './renderUtils.js';
-import { renderFunction} from './renderUtilsTwo.js';
+import { renderFunction, mainConter } from './renderUtilsTwo.js';
 
 const mealsTitle = document.querySelector('#mealsTitle');
 const iconElement = document.querySelector('#iconImg');

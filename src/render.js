@@ -1,6 +1,6 @@
-import { renderComments } from "./renderUtils.js";
+import { renderComments } from './renderUtils.js';
 
-export const renderSingleMealPopup = async (meal) => {
+export default renderSingleMealPopup = async (meal) => {
   await meal.GetComments();
 
   const singleMealCtn = document.querySelector('#contentContainer');
@@ -56,7 +56,7 @@ export const renderSingleMealPopup = async (meal) => {
   const commentsName = document.createElement('h3');
   commentsName.classList.add('text-center');
   commentsName.classList.add('py-2');
-  commentsName.id ='titleComments';
+  commentsName.id = 'titleComments';
   commentsName.textContent = 'Comments';
 
   const myCommentsCtn = document.createElement('div');
@@ -136,5 +136,3 @@ export const renderSingleMealPopup = async (meal) => {
     }
   });
 };
-
-
