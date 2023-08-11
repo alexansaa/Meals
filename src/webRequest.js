@@ -51,4 +51,3 @@ export const doPost = async (url, payload = null) => {
     return { status: false };
   }
 };
-

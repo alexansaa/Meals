@@ -73,8 +73,9 @@ export default class Meal {
       tmpAns.forEach((lk) => {
         const tmpLike = new Like(lk.item_id, lk.likes);
         Like.likes.push(tmpLike);
-      })
-    } catch {
+      });
+    } catch (e) {
+      console.log(`GetLikes error: ${e}`);
     }
   }
 
@@ -118,7 +119,7 @@ export default class Meal {
         crrDate.getFullYear(),
         crrDate.getMonth() + 1,
         crrDate.getDate()],
-        '-');
+      '-');
       const newCmt = new Comment(uComment, myDate, uName);
       this.comments.push(newCmt);
     }

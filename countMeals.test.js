@@ -24,6 +24,5 @@ describe('Meals Items Counter', () => {
 
     // Assert
     expect(mainConter).toBe(6);
-
   });
 });
