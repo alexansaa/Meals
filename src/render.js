@@ -1,14 +1,21 @@
 export const mealCtn = document.querySelector('#mealsContainer');
 export const singleMealCtn = document.querySelector('#contentContainer');
 
+export var mainConter = 0;
+var commentsCounter = 0;
+
 function renderComments(commentsObjArr) {
   const myContainer = document.querySelector('#myCommentsCtn');
+  const titleContainer = document.querySelector('#titleComments');
+  commentsCounter = 0;
   myContainer.textContent = '';
   commentsObjArr.forEach((cmt) => {
+    commentsCounter += 1;
     const tmpCmt = document.createElement('p');
     tmpCmt.textContent = `${cmt.creationDate} ${cmt.username}: ${cmt.comment}`;
     myContainer.appendChild(tmpCmt);
   });
+  titleContainer.textContent = `Comments (${commentsCounter})`;
 }
 
 export const renderSingleMealPopup = async (meal) => {
@@ -65,7 +72,8 @@ export const renderSingleMealPopup = async (meal) => {
   const commentsName = document.createElement('h3');
   commentsName.classList.add('text-center');
   commentsName.classList.add('py-2');
-  commentsName.textContent = 'Comments (7)';
+  commentsName.id ='titleComments';
+  commentsName.textContent = 'Comments';
 
   const myCommentsCtn = document.createElement('div');
   myCommentsCtn.classList.add('w-75');
@@ -151,6 +159,8 @@ export const renderFunction = (mealArray) => {
     return;
   }
   mealArray.forEach((meal) => {
+    mainConter += 1;
+
     const mealElmnt = document.createElement('div');
     mealElmnt.classList.add('col-6');
     mealElmnt.classList.add('col-md-4');
