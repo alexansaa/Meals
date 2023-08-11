@@ -1,25 +1,9 @@
-export const mealCtn = document.querySelector('#mealsContainer');
-export const singleMealCtn = document.querySelector('#contentContainer');
-
-export var mainConter = 0;
-var commentsCounter = 0;
-
-function renderComments(commentsObjArr) {
-  const myContainer = document.querySelector('#myCommentsCtn');
-  const titleContainer = document.querySelector('#titleComments');
-  commentsCounter = 0;
-  myContainer.textContent = '';
-  commentsObjArr.forEach((cmt) => {
-    commentsCounter += 1;
-    const tmpCmt = document.createElement('p');
-    tmpCmt.textContent = `${cmt.creationDate} ${cmt.username}: ${cmt.comment}`;
-    myContainer.appendChild(tmpCmt);
-  });
-  titleContainer.textContent = `Comments (${commentsCounter})`;
-}
+import { renderComments } from "./renderUtils.js";
 
 export const renderSingleMealPopup = async (meal) => {
   await meal.GetComments();
+
+  const singleMealCtn = document.querySelector('#contentContainer');
 
   const singleCtn = document.createElement('div');
   singleCtn.classList.add('overlay');
@@ -153,62 +137,4 @@ export const renderSingleMealPopup = async (meal) => {
   });
 };
 
-export const renderFunction = (mealArray) => {
-  mealCtn.innerHTML = '';
-  if (mealArray === null || mealArray.length === 0) {
-    return;
-  }
-  mealArray.forEach((meal) => {
-    mainConter += 1;
 
-    const mealElmnt = document.createElement('div');
-    mealElmnt.classList.add('col-6');
-    mealElmnt.classList.add('col-md-4');
-    mealElmnt.classList.add('col-lg-3');
-
-    const imgMeal = document.createElement('img');
-    imgMeal.classList.add('w-100');
-    imgMeal.src = meal.strMealThumb;
-
-    const nameCtn = document.createElement('div');
-    nameCtn.classList.add('d-flex');
-    nameCtn.classList.add('flex-row');
-    const mealName = document.createElement('h2');
-    mealName.textContent = meal.strMeal;
-    const likeBtn = document.createElement('img');
-    likeBtn.classList.add('iconLike');
-    nameCtn.appendChild(mealName);
-    nameCtn.appendChild(likeBtn);
-
-    const likeQty = document.createElement('p');
-    likeQty.textContent = `Likes ${meal.GetLikeQty()}`;
-
-    const comentBtn = document.createElement('button');
-    comentBtn.textContent = 'Comment';
-    comentBtn.type = 'button';
-
-    mealElmnt.appendChild(imgMeal);
-    mealElmnt.appendChild(nameCtn);
-    mealElmnt.appendChild(likeQty);
-    mealElmnt.appendChild(comentBtn);
-
-    // Open  pop-up
-    imgMeal.addEventListener('click', () => {
-      renderSingleMealPopup(meal);
-    });
-
-    // Like action
-    likeBtn.addEventListener('click', async () => {
-      if (await meal.PostLike()) {
-        likeQty.textContent = `Likes ${meal.GetLikeQty()}`;
-      }
-    });
-
-    // Comment action
-    comentBtn.addEventListener('click', () => {
-      renderSingleMealPopup(meal);
-    });
-
-    mealCtn.appendChild(mealElmnt);
-  });
-};
