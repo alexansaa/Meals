@@ -7,12 +7,14 @@ import { doGet, doPost } from './webRequest.js';
 // Meal Database
 const mealAPI = 'https://www.themealdb.com/api/json/v1/1';
 const mealById = '/lookup.php?i=';
-const mealRandom = '/random.php';
 // Involvement data storage
-const dataAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/wH7OLHn1qj0rNeNeg59n';
+const dataAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/jv9JX1Y91XDdVtvfca13';
 const dataLikes = '/likes/';
 const dataComments = '/comments';
 const itemIdPostfix = '?item_id=';
+
+// Preserved Items
+const appData = [52772, 52773, 52774, 52775, 52776, 52777];
 
 export default class Meal {
   static meals = [];
@@ -30,10 +32,10 @@ export default class Meal {
     this.comments = [];
   }
 
-  static async GetMealRandom(number) {
-    const url = _.join([mealAPI, mealRandom], '');
+  static async GetMealRandom() {
     const mealPromises = [];
-    for (let i = 0; i < number; i += 1) {
+    appData.forEach((id) => {
+      const url = _.join([mealAPI, mealById, id], '');
       mealPromises.push(
         doGet(url).then((ans) => {
           const tmp = ans.meals[0];
@@ -49,7 +51,7 @@ export default class Meal {
           );
         }),
       );
-    }
+    });
     const mealsRandArray = await Promise.all(mealPromises);
     this.meals = mealsRandArray;
   }
@@ -66,7 +68,14 @@ export default class Meal {
 
   static async GetLikes() {
     const url = _.join([dataAPI, dataLikes], '');
-    Like.likes = await doGet(url);
+    const tmpAns = await doGet(url);
+    try {
+      tmpAns.forEach((lk) => {
+        const tmpLike = new Like(lk.item_id, lk.likes);
+        Like.likes.push(tmpLike);
+      })
+    } catch {
+    }
   }
 
   async PostLike() {
@@ -104,7 +113,13 @@ export default class Meal {
     };
     const tmpAns = await doPost(url, body);
     if (tmpAns.status) {
-      const newCmt = new Comment(uComment, Date(), uName);
+      const crrDate = new Date();
+      const myDate = _.join([
+        crrDate.getFullYear(),
+        crrDate.getMonth() + 1,
+        crrDate.getDate()],
+        '-');
+      const newCmt = new Comment(uComment, myDate, uName);
       this.comments.push(newCmt);
     }
     return tmpAns.status;

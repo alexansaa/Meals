@@ -3,6 +3,7 @@ export const singleMealCtn = document.querySelector('#contentContainer');
 
 function renderComments(commentsObjArr) {
   const myContainer = document.querySelector('#myCommentsCtn');
+  myContainer.textContent = '';
   commentsObjArr.forEach((cmt) => {
     const tmpCmt = document.createElement('p');
     tmpCmt.textContent = `${cmt.creationDate} ${cmt.username}: ${cmt.comment}`;
@@ -138,6 +139,8 @@ export const renderSingleMealPopup = async (meal) => {
     const comment = textInsight.value;
     if (await meal.PostComment(user, comment)) {
       renderComments(meal.comments);
+      nameInput.value = '';
+      textInsight.value = '';
     }
   });
 };

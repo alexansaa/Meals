@@ -1,9 +1,9 @@
 export const doGet = (url) => fetch(url)
-  .then((response) => {
+  .then(async (response) => {
+    let ansData = {};
     try {
-      return response.json();
+      ansData = await response.json();
     } catch {
-      let ansData = {};
       if (response.status === 201) {
         ansData = {
           status: true,
@@ -13,8 +13,8 @@ export const doGet = (url) => fetch(url)
           status: false,
         };
       }
-      return ansData;
     }
+    return ansData;
   });
 
 export const doPost = (url, payload = null) => fetch(url, {

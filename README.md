@@ -80,7 +80,7 @@
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-- [Live Demo!](https://alexansaa.github.io/To-Do_List)
+- [Live Demo!](https://alexansaa.github.io/Meals/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

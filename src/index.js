@@ -7,5 +7,5 @@ iconElement.classList.add('iconImg');
 
 await Meal.GetLikes();
 
-await Meal.GetMealRandom(6);
+await Meal.GetMealRandom();
 renderFunction(Meal.meals);
