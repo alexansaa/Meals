@@ -22,6 +22,6 @@ describe('Meals Coments Counter', () => {
     renderComments(myComments);
 
     // Assert
-    expect(commentsCounter).toBe(3);
+    expect(commentsCounter()).toBe(3);
   });
 });

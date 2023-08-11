@@ -4,6 +4,7 @@
   "description": "This is the meal website, consiming Meal API",
   "private": true,
   "scripts": {
+    "predeploy": "npm run build",
     "test": "jest",
     "build": "webpack",
     "watch": "webpack --watch",

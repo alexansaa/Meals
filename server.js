@@ -16,5 +16,5 @@ app.use(
 
 // Serve the files on port 80.
 app.listen(80, () => {
-  console.log('Example app listening on port 80!\n');
+  // Server started
 });

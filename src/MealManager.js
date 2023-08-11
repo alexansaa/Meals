@@ -75,7 +75,7 @@ export default class Meal {
         Like.likes.push(tmpLike);
       });
     } catch (e) {
-      console.log(`GetLikes error: ${e}`);
+      // if there is no likes registered for this meal, an error appears
     }
   }
 
