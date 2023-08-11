@@ -1,17 +1,9 @@
-export const mealCtn = document.querySelector('#mealsContainer');
-export const singleMealCtn = document.querySelector('#contentContainer');
-
-function renderComments(commentsObjArr) {
-  const myContainer = document.querySelector('#myCommentsCtn');
-  commentsObjArr.forEach((cmt) => {
-    const tmpCmt = document.createElement('p');
-    tmpCmt.textContent = `${cmt.creationDate} ${cmt.username}: ${cmt.comment}`;
-    myContainer.appendChild(tmpCmt);
-  });
-}
+import { renderComments } from "./renderUtils.js";
 
 export const renderSingleMealPopup = async (meal) => {
   await meal.GetComments();
+
+  const singleMealCtn = document.querySelector('#contentContainer');
 
   const singleCtn = document.createElement('div');
   singleCtn.classList.add('overlay');
@@ -64,7 +56,8 @@ export const renderSingleMealPopup = async (meal) => {
   const commentsName = document.createElement('h3');
   commentsName.classList.add('text-center');
   commentsName.classList.add('py-2');
-  commentsName.textContent = 'Comments (7)';
+  commentsName.id ='titleComments';
+  commentsName.textContent = 'Comments';
 
   const myCommentsCtn = document.createElement('div');
   myCommentsCtn.classList.add('w-75');
@@ -138,64 +131,10 @@ export const renderSingleMealPopup = async (meal) => {
     const comment = textInsight.value;
     if (await meal.PostComment(user, comment)) {
       renderComments(meal.comments);
+      nameInput.value = '';
+      textInsight.value = '';
     }
   });
 };
 
-export const renderFunction = (mealArray) => {
-  mealCtn.innerHTML = '';
-  if (mealArray === null || mealArray.length === 0) {
-    return;
-  }
-  mealArray.forEach((meal) => {
-    const mealElmnt = document.createElement('div');
-    mealElmnt.classList.add('col-6');
-    mealElmnt.classList.add('col-md-4');
-    mealElmnt.classList.add('col-lg-3');
 
-    const imgMeal = document.createElement('img');
-    imgMeal.classList.add('w-100');
-    imgMeal.src = meal.strMealThumb;
-
-    const nameCtn = document.createElement('div');
-    nameCtn.classList.add('d-flex');
-    nameCtn.classList.add('flex-row');
-    const mealName = document.createElement('h2');
-    mealName.textContent = meal.strMeal;
-    const likeBtn = document.createElement('img');
-    likeBtn.classList.add('iconLike');
-    nameCtn.appendChild(mealName);
-    nameCtn.appendChild(likeBtn);
-
-    const likeQty = document.createElement('p');
-    likeQty.textContent = `Likes ${meal.GetLikeQty()}`;
-
-    const comentBtn = document.createElement('button');
-    comentBtn.textContent = 'Comment';
-    comentBtn.type = 'button';
-
-    mealElmnt.appendChild(imgMeal);
-    mealElmnt.appendChild(nameCtn);
-    mealElmnt.appendChild(likeQty);
-    mealElmnt.appendChild(comentBtn);
-
-    // Open  pop-up
-    imgMeal.addEventListener('click', () => {
-      renderSingleMealPopup(meal);
-    });
-
-    // Like action
-    likeBtn.addEventListener('click', async () => {
-      if (await meal.PostLike()) {
-        likeQty.textContent = `Likes ${meal.GetLikeQty()}`;
-      }
-    });
-
-    // Comment action
-    comentBtn.addEventListener('click', () => {
-      renderSingleMealPopup(meal);
-    });
-
-    mealCtn.appendChild(mealElmnt);
-  });
-};
