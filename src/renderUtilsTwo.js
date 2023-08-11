@@ -1,8 +1,8 @@
 import renderSingleMealPopup from './render.js';
 
-let mainConter_ = 0;
+let myMainConter = 0;
 
-export const mainConter = () => mainConter_;
+export const mainConter = () => myMainConter;
 
 export const renderFunction = (mealArray) => {
   const mealCtn = document.querySelector('#mealsContainer');
@@ -11,7 +11,7 @@ export const renderFunction = (mealArray) => {
     return;
   }
   mealArray.forEach((meal) => {
-    mainConter_ += 1;
+    myMainConter += 1;
 
     const mealElmnt = document.createElement('div');
     mealElmnt.classList.add('col-6');
