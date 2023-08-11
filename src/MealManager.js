@@ -33,25 +33,22 @@ export default class Meal {
   }
 
   static async GetMealRandom() {
-    const mealPromises = [];
-    appData.forEach((id) => {
+    const mealPromises = appData.map(async (id) => {
       const url = _.join([mealAPI, mealById, id], '');
-      mealPromises.push(
-        doGet(url).then((ans) => {
-          const tmp = ans.meals[0];
-          return new Meal(
-            tmp.idMeal,
-            tmp.strArea,
-            tmp.strCategory,
-            tmp.strInstructions,
-            tmp.strMeal,
-            tmp.strMealThumb,
-            tmp.strSource,
-            tmp.strYoutube,
-          );
-        }),
+      const ans = await doGet(url);
+      const tmp = ans.meals[0];
+      return new Meal(
+        tmp.idMeal,
+        tmp.strArea,
+        tmp.strCategory,
+        tmp.strInstructions,
+        tmp.strMeal,
+        tmp.strMealThumb,
+        tmp.strSource,
+        tmp.strYoutube,
       );
     });
+
     const mealsRandArray = await Promise.all(mealPromises);
     this.meals = mealsRandArray;
   }
