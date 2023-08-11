@@ -73,9 +73,9 @@ export default class Meal {
       tmpAns.forEach((lk) => {
         const tmpLike = new Like(lk.item_id, lk.likes);
         Like.likes.push(tmpLike);
-      })
+      });
     } catch (e) {
-      console.log('GetLikes error: ' + e);
+      console.log(`GetLikes error: ${e}`);
     }
   }
 

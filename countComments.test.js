@@ -23,6 +23,5 @@ describe('Meals Coments Counter', () => {
 
     // Assert
     expect(commentsCounter).toBe(3);
-
   });
 });
